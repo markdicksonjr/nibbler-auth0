@@ -1,4 +1,4 @@
-package user
+package auth0
 
 // TODO: expose requiresRole?
 

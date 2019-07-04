@@ -2,14 +2,14 @@ package main
 
 import (
 	"github.com/markdicksonjr/nibbler"
-	"github.com/markdicksonjr/nibbler-auth0/user"
+	"github.com/markdicksonjr/nibbler-auth0"
 	"log"
 	"net/http"
 )
 
 type SampleExtension struct {
 	nibbler.NoOpExtension
-	Auth0Extension *user.Extension
+	Auth0Extension *auth0.UserExtension
 }
 
 func (s *SampleExtension) AddRoutes(app *nibbler.Application) error {

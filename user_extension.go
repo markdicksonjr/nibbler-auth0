@@ -1,19 +1,18 @@
-package user
+package auth0
 
 import (
 	"github.com/markdicksonjr/nibbler"
-	auth0 "github.com/markdicksonjr/nibbler-auth0"
-	nibUser "github.com/markdicksonjr/nibbler/user"
+	"github.com/markdicksonjr/nibbler/user"
 	"net/http"
 )
 
-type Extension struct {
-	auth0.Extension
+type UserExtension struct {
+	Extension
 
-	UserExtension *nibUser.Extension
+	UserExtension *user.Extension
 }
 
-func (s *Extension) Init(app *nibbler.Application) error {
+func (s *UserExtension) Init(app *nibbler.Application) error {
 
 	// call init on the base auth0 extension
 	if err := s.Extension.Init(app); err != nil {
@@ -21,7 +20,7 @@ func (s *Extension) Init(app *nibbler.Application) error {
 	}
 
 	// apply a custom function for when we process the redirect from auth0
-	s.OnLoginComplete = func(a *auth0.Extension, w http.ResponseWriter, r *http.Request) (allowRedirect bool, err error) {
+	s.OnLoginComplete = func(a *Extension, w http.ResponseWriter, r *http.Request) (allowRedirect bool, err error) {
 		profile, err := s.SessionExtension.GetAttribute(r, "profile")
 
 		if err != nil {
@@ -73,7 +72,7 @@ func (s *Extension) Init(app *nibbler.Application) error {
 		return false, err
 	}
 
-	s.OnLogoutComplete = func(a *auth0.Extension, w http.ResponseWriter, r *http.Request) error {
+	s.OnLogoutComplete = func(a *Extension, w http.ResponseWriter, r *http.Request) error {
 		return s.SessionExtension.SetCaller(w, r, nil)
 	}
 

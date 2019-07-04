@@ -2,8 +2,7 @@ package main
 
 import (
 	"github.com/markdicksonjr/nibbler"
-	auth0 "github.com/markdicksonjr/nibbler-auth0"
-	UserAuth0 "github.com/markdicksonjr/nibbler-auth0/user"
+	"github.com/markdicksonjr/nibbler-auth0"
 	"github.com/markdicksonjr/nibbler/database/sql"
 	"github.com/markdicksonjr/nibbler/session"
 	"github.com/markdicksonjr/nibbler/session/connectors"
@@ -45,7 +44,7 @@ func main() {
 	}
 
 	// allocate user auth0 extension
-	auth0Extension := UserAuth0.Extension{
+	auth0Extension := auth0.UserExtension{
 		Extension: auth0.Extension{
 			SessionExtension:    &sessionExtension,
 			LoggedInRedirectUrl: "/",
