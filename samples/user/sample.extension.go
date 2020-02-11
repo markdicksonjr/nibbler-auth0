@@ -13,7 +13,7 @@ type SampleExtension struct {
 }
 
 func (s *SampleExtension) AddRoutes(app *nibbler.Application) error {
-	app.GetRouter().HandleFunc("/test", s.Auth0Extension.EnforceLoggedIn(s.ProtectedRoute)).Methods("GET")
+	app.Router.HandleFunc("/test", s.Auth0Extension.EnforceLoggedIn(s.ProtectedRoute)).Methods("GET")
 	return nil
 }
 

@@ -3,8 +3,8 @@ package simple
 import (
 	"github.com/markdicksonjr/nibbler"
 	auth0 "github.com/markdicksonjr/nibbler-auth0"
+	connectors "github.com/markdicksonjr/nibbler-sql/session"
 	"github.com/markdicksonjr/nibbler/session"
-	"github.com/markdicksonjr/nibbler/session/connectors"
 	"log"
 	"net/http"
 )
@@ -15,7 +15,7 @@ type SampleExtension struct {
 }
 
 func (s *SampleExtension) AddRoutes(app *nibbler.Application) error {
-	app.GetRouter().HandleFunc("/test", s.Auth0Extension.EnforceLoggedIn(s.ProtectedRoute)).Methods("GET")
+	app.Router.HandleFunc("/test", s.Auth0Extension.EnforceLoggedIn(s.ProtectedRoute)).Methods("GET")
 	return nil
 }
 

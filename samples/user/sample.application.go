@@ -3,27 +3,27 @@ package main
 import (
 	"github.com/markdicksonjr/nibbler"
 	"github.com/markdicksonjr/nibbler-auth0"
-	"github.com/markdicksonjr/nibbler/database/sql"
+	"github.com/markdicksonjr/nibbler-sql"
+	"github.com/markdicksonjr/nibbler-sql/session"
+	NibUserSql "github.com/markdicksonjr/nibbler-sql/user"
 	"github.com/markdicksonjr/nibbler/session"
-	"github.com/markdicksonjr/nibbler/session/connectors"
 	"github.com/markdicksonjr/nibbler/user"
-	NibUserSql "github.com/markdicksonjr/nibbler/user/database/sql"
 	"log"
 )
 
 func main() {
 
 	// configuration
-	config, err := nibbler.LoadConfiguration(nil)
+	config, err := nibbler.LoadConfiguration()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// allocate the sql extension, with all models
 	// if database.uri is not configured, an in-memory SQLite database will be used
-	sqlExtension := sql.Extension{
+	sqlExtension := nibbler_sql.Extension{
 		Models: []interface{}{
-			user.User{},
+			nibbler.User{},
 		},
 	}
 
@@ -69,7 +69,7 @@ func main() {
 	// create a test user, if it does not exist
 	emailVal := "someone@example.com"
 	password := ""
-	_, errCreate := userExtension.Create(&user.User{
+	_, errCreate := userExtension.Create(&nibbler.User{
 		Email:    &emailVal,
 		Password: &password,
 	})

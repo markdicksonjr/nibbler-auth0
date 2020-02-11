@@ -44,7 +44,7 @@ func (s *Extension) Init(app *nibbler.Application) error {
 		return errors.New("session extension was not provided to Auth0 extension")
 	}
 
-	s.config = app.GetConfiguration()
+	s.config = app.Config
 
 	// default to "/" if not set
 	if len(s.LoggedInRedirectUrl) == 0 {
@@ -73,10 +73,14 @@ func (s *Extension) AddRoutes(app *nibbler.Application) error {
 		bestLogoutUrl = &value
 	}
 
-	app.GetRouter().HandleFunc(*bestCallbackUrl, s.CallbackHandler)
-	app.GetRouter().HandleFunc(*bestLoginUrl, s.LoginHandler)
-	app.GetRouter().HandleFunc(*bestLogoutUrl, s.LogoutHandler)
+	app.Router.HandleFunc(*bestCallbackUrl, s.CallbackHandler)
+	app.Router.HandleFunc(*bestLoginUrl, s.LoginHandler)
+	app.Router.HandleFunc(*bestLogoutUrl, s.LogoutHandler)
 	return nil
+}
+
+func (s *Extension) GetName() string {
+	return "auth0"
 }
 
 func (s *Extension) Destroy(app *nibbler.Application) error {
